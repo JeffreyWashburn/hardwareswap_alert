@@ -6,9 +6,15 @@ from email.message import EmailMessage
 from win10toast import ToastNotifier
 from time import sleep
 from json import load, dump
+from os.path import isfile
 
 # bring in my private credentials
 from private.creds import *
+
+# create history file if none
+if not isfile("history.json"):
+    with open("history.json", "w") as f:
+        dump([], f)
 
 # Constants (Enter your search patterns here)
 NOTIFY_IMG = "icons/hardwareswap.ico"
@@ -76,18 +82,17 @@ def main():
 
     # list to hold already discovered posts so you dont get notified every 5s
     discovered = load_discovered()
+    
     while True:
-        sleep(5)
+        sleep(1)
         # check against expressions
         # customize and add more checks as necessary
-        matches = check(hardwareswap, IS_USA)
-        for i in range(len(matches)):
-            post = matches[i]
+        matches = check(hardwareswap, PATTERN1)
+        for post in matches:
             if post not in discovered:
                 win_notify(post)
                 email_alert("Found on r/hardwareswap", post, phoneno)
                 discovered.append(post)
                 save_discovered(discovered)
-                sleep(2)
             
 main()

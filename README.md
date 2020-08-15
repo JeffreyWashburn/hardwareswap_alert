@@ -14,3 +14,7 @@ I recommend doing what I did with creating a creds.py file to hold all your keys
 * To get these go to your [apps](https://reddit.com/prefs/apps) on the reddit site and add an app.
 ### Common errors
 * recieved err 401 - This most likely means your credentials are wrong.
+---
+<br><br><br>
+# PRAW (Python Reddit API Wrapper)
+Take a look at the [documentation](https://praw.readthedocs.io/en/latest/) to figure out how you can further customize this script

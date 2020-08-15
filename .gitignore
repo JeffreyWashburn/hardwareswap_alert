@@ -354,3 +354,5 @@ MigrationBackup/
 
 # private program files
 private/
+
+.history.json
