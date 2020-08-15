@@ -6,7 +6,7 @@
 ### Get your credentials
 I recommend doing what I did with creating a creds.py file to hold all your keys and stuff so that it's secured, otherwise you can hardcode them into the script yourself, just replace the values in the script.
 ### Set up your gmail to send texts
-1. Go to your gmail's [security settings](https://myaccount.google.com/security) and enable two-factor authentication.
+1. Go to your gmail's <a href="https://myaccount.google.com/security" target="_blank">security settings</a> and enable two-factor authentication
 1. On the same page, you should now see an app passwords section. Go in there and create a new app and get a password for it. You will use this password in the script.
 1. Look at [this article](https://www.digitaltrends.com/mobile/how-to-send-a-text-from-your-email-account/) to get your "phone number email", use this in place of an email address to instead get sms text messages.
 ### Authenticate with reddits API
