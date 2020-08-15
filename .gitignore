@@ -351,3 +351,6 @@ MigrationBackup/
 
 # Code Runner
 .tempCodeRunnerFile.py
+
+# creds Credentials presented to reddit API
+.creds.py
