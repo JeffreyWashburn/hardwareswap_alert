@@ -4,13 +4,9 @@ import re
 from win10toast import ToastNotifier
 from sys import exit
 from time import sleep
-from creds import client_id, client_secret, user_agent
 
-if client_id is None or \
-    client_secret is None or \
-    user_agent is None:
-    print("You need to enter credentials into the creds.py file")
-    exit()
+# bring in my private credentials
+from private.creds import client_id, client_secret, user_agent
 
 # Constants (Enter your search patterns here)
 NOTIFY_IMG = "icons/hardwareswap.ico"
@@ -49,6 +45,7 @@ def check(subreddit, keyword):
 def main():
     
     # make a hardwareswap subreddit instance
+    # (your credentials go here)
     reddit = praw.Reddit(
         client_id=client_id,
         client_secret=client_secret,
