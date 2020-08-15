@@ -5,6 +5,7 @@ import smtplib
 from email.message import EmailMessage
 from win10toast import ToastNotifier
 from time import sleep
+from json import load, dump
 
 # bring in my private credentials
 from private.creds import *
@@ -25,13 +26,14 @@ def email_alert(subject, body, to):
     message = EmailMessage()
     message.set_content(body)
     message['subject'] = subject
+    # message is going to myself
     message['to'] = to
     message['from'] = to
 
     user = email[0]
     password = email[1]
 
-    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server = smtplib.SMTP("smtp.gmail.com", 587) # 587 is standard for smtp
     server.starttls()
     server.login(user, password)
 
@@ -43,15 +45,6 @@ def get_newest(sub_reddit):
     return [post.title for post in sub_reddit.new() if not post.
     stickied]
 
-def matches(list, keyword):
-
-    # check any list for keywords
-    found = []
-    for item in list:
-        if keyword.search(item):
-            found.append(item)
-    return found
-
 def check(subreddit, keyword):
 
     # check a subreddits posts for keywords
@@ -60,6 +53,14 @@ def check(subreddit, keyword):
         if keyword.search(post):
             found.append(post)
     return found
+
+def save_discovered(posts):
+    with open("history.json", "w") as f:
+        dump(posts, f)
+
+def load_discovered():
+    with open("history.json", "r") as f:
+        return load(f)
 
 def main():
     
@@ -74,18 +75,19 @@ def main():
     hardwareswap = reddit.subreddit("hardwareswap")
 
     # list to hold already discovered posts so you dont get notified every 5s
-    discovered = []
+    discovered = load_discovered()
     while True:
         sleep(5)
         # check against expressions
         # customize and add more checks as necessary
-        pass_1 = check(hardwareswap, PATTERN1)
-        for i in range(len(pass_1)):
-            post = pass_1[i]
+        matches = check(hardwareswap, IS_USA)
+        for i in range(len(matches)):
+            post = matches[i]
             if post not in discovered:
                 win_notify(post)
                 email_alert("Found on r/hardwareswap", post, phoneno)
-                sleep(2)
                 discovered.append(post)
-
+                save_discovered(discovered)
+                sleep(2)
+            
 main()
