@@ -30,7 +30,7 @@ def win_notify(post):
 
 def email_alert(subject, body, to):
     message = EmailMessage()
-    message.set_content(body)
+    message.set_content(f"{body}\nLink: https://www.reddit.com/r/hardwareswap/")
     message['subject'] = subject
     # message is going to myself
     message['to'] = to
@@ -48,7 +48,7 @@ def email_alert(subject, body, to):
     server.quit()
 
 def get_newest(sub_reddit):
-    return [post.title for post in sub_reddit.new() if not post.
+    return [post.title for post in sub_reddit.new(limit=3) if not post.
     stickied]
 
 def check(subreddit, keyword):
@@ -78,21 +78,24 @@ def main():
         user_agent=user_agent
     )
 
-    hardwareswap = reddit.subreddit("hardwareswap")
-
     # list to hold already discovered posts so you dont get notified every 5s
     discovered = load_discovered()
     
     while True:
         sleep(1)
+        hardwareswap = reddit.subreddit("hardwareswap")
         # check against expressions
         # customize and add more checks as necessary
         matches = check(hardwareswap, PATTERN1)
         for post in matches:
             if post not in discovered:
+                # send windows notification and sms text
                 win_notify(post)
                 email_alert("Found on r/hardwareswap", post, phoneno)
+                # remember last 3 posts
+                print(f"removing{discovered.pop(0)}")
                 discovered.append(post)
                 save_discovered(discovered)
+                print(f"saving {post}")
             
 main()
