@@ -4,11 +4,11 @@
 
 ## To use:
 
-### Install dependencies
+### Install script dependencies
 * pip install win10toast
 * pip install praw
 
-### Get your credentials
+### Get your app credentials
 I reccommend doing what I did with creating a creds.py file to hold all your keys and stuff so that it's secure, otherwise there are a [few ways](https://praw.readthedocs.io/en/latest/getting_started/configuration.html#configuration) to authenticate other than hard coding your credentials like the below example.
 
 ```python
@@ -20,7 +20,7 @@ hardwareswap = reddit.subreddit(
 )
 ```
 
-### Set up your gmail to send texts
+### Set up your gmail to send texts :email:
 1. Go to your gmail's [security settings]("https://myaccount.google.com/security") and enable two-factor authentication
 1. On the same page, you should now see an app passwords section. Go in there and create a new app and get a password for it. You will use this password in the script.
 1. Use your carriers [phone number address](https://www.digitaltrends.com/mobile/how-to-send-a-text-from-your-email-account/) in place of an email address to instead get sms text messages.
