@@ -70,8 +70,11 @@ def load_discovered():
     with open("history.json", "r") as f:
         return load(f)
 
+def get_now():
+    return dt.strftime(dt.now(), "%Y%m%d %H-%M-%S")
+
 def main():
-    print("[*][START]: CTRL-C to quit")
+    print(f"[{get_now()}][START]: CTRL-C to quit")
 
     # create history file if none
     if not isfile("history.json"):
@@ -117,6 +120,5 @@ try:
     main()
 except:
     var = format_exc()
-    err_time = dt.strftime(dt.now(), "%Y%m%d %H-%M-%S")
-    with open(f"err/{err_time} traceback.err", "w") as f:
+    with open(f"err/{get_now()} traceback.err", "w") as f:
         f.write(var)
