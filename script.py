@@ -53,7 +53,8 @@ def email_alert(subject, body, to):
 def get_newest(sub_reddit):
     # get the three newest non-sticky posts
     return [post.title for post in sub_reddit.new(limit=3) if not 
-    post.stickied and post.link_flair_text == "SELLING"]
+            post.stickied and post.link_flair_text == "SELLING" or
+            post.link_flair_text == "TRADING"]
 
 def check(subreddit, keyword):
 
