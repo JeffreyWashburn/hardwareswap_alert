@@ -1,7 +1,5 @@
 # r/hardwareswap post monitor
 
-
-
 ## To use:
 
 ### Install dependencies
@@ -31,7 +29,7 @@ hardwareswap = reddit.subreddit(
 * To get these go to your [apps](https://reddit.com/prefs/apps) on the reddit site and add an app.
 
 ### Common errors
-* recieved error `401` - This most likely means your credentials are wrong :thinking:
+* Recieved error `401` - This most likely means your credentials are wrong :thinking:
 
 # PRAW (Python Reddit API Wrapper)
 `praw` is the main package used in this script. It is a wrapper written in Python for Reddit's API, as the name suggests.

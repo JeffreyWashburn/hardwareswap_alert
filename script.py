@@ -1,27 +1,27 @@
 # Imports
-import praw
-import re
-import smtplib
-import traceback
+from praw import Reddit
+
+from re import compile, IGNORECASE
+
+from smtplib import SMTP
 from email.message import EmailMessage
 from win10toast import ToastNotifier
+
 from time import sleep
+from datetime import datetime as dt
+from traceback import format_exc
+
 from json import load, dump
 from os.path import isfile
 
-# bring in my private credentials
-from private.creds import my_credentials
-
-# create history file if none
-if not isfile("history.json"):
-    with open("history.json", "w") as f:
-        dump([], f)
+from private.creds import my_credentials as mycreds
 
 # Constants (Enter your search patterns here)
 NOTIFY_IMG = "icons/hardwareswap.ico"
-PATTERN1 = re.compile(r"2080 ?super", re.IGNORECASE)
-IS_PAYPAL = re.compile(r"PayPal", re.IGNORECASE)
-IS_USA = re.compile(r"^\[USA")
+
+GRAPHICS_CARD = compile(r"2080 ?super", IGNORECASE)
+IS_PAYPAL = compile(r"PayPal", IGNORECASE)
+IS_USA = compile(r"^\[USA")
 
 # Functions
 def win_notify(post):
@@ -37,10 +37,10 @@ def email_alert(subject, body, to):
     message['to'] = to
     message['from'] = to
 
-    user = my_credentials['email']
-    password = my_credentials['gmail_app_password']
+    user = mycreds['email']
+    password = mycreds['gmail_app_password']
 
-    server = smtplib.SMTP("smtp.gmail.com", 587) # 587 is standard for smtp
+    server = SMTP("smtp.gmail.com", 587) # 587 is standard for smtp
     server.starttls()
     server.login(user, password)
 
@@ -49,6 +49,7 @@ def email_alert(subject, body, to):
     server.quit()
 
 def get_newest(sub_reddit):
+    # get the three newest non-sticky posts
     return [post.title for post in sub_reddit.new(limit=3) if not post.
     stickied]
 
@@ -70,39 +71,51 @@ def load_discovered():
         return load(f)
 
 def main():
-    
+    print("[*][START]: CTRL-C to quit")
+
+    # create history file if none
+    if not isfile("history.json"):
+        with open("history.json", "w") as f:
+            dump([], f)
+
     # make a hardwareswap subreddit instance
     # (your credentials go here)
-    reddit = praw.Reddit(
-        client_id=my_credentials['client_id'],
-        client_secret=my_credentials['client_secret'],
-        user_agent=my_credentials['user_agent']
+    reddit = Reddit(
+        client_id=mycreds['client_id'],
+        client_secret=mycreds['client_secret'],
+        user_agent=mycreds['user_agent']
     )
 
     # list to hold already discovered posts so you dont get notified every 5s
     discovered = load_discovered()
+    while len(discovered) < 3:
+        discovered.append(None)
+        save_discovered(discovered)
     
     while True:
         sleep(1)
         hardwareswap = reddit.subreddit("hardwareswap")
         # check against expressions
         # customize and add more checks as necessary
-        matches = check(hardwareswap, PATTERN1)
+        matches = check(hardwareswap, GRAPHICS_CARD)
+        total = 0
         for post in matches:
             if post not in discovered:
                 # send windows notification and sms text
                 win_notify(post)
                 email_alert("Found on r/hardwareswap", post, 
-                    my_credentials['phone_address'])
+                    mycreds['phone_address'])
                 # remember last 3 posts
-                print(f"removing{discovered.pop(0)}")
+                discovered.pop(0)
                 discovered.append(post)
                 save_discovered(discovered)
-                print(f"saving {post}")
+                total += 1
+                print(f"[{total}][SENT]: {post}")
 
 try:
     main()
 except:
-    var = traceback.format_exc()
+    var = format_exc()
     with open("traceback.err", "w") as f:
         f.write(var)
+        f.write(dt.strftime(dt.now(), "%M/%d %H:%M:%S"))
