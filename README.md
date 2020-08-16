@@ -13,6 +13,7 @@
 
 ### Authenticate with reddits API
 I recommend doing what I did with creating a creds.py file to hold all your keys and stuff so that it's secure, otherwise there are a [few ways](https://praw.readthedocs.io/en/latest/getting_started/configuration.html#configuration) to authenticate other than hard coding your credentials like the below example.
+
 ```python
 # hard coded reddit api credentials
 hardwareswap = reddit.subreddit(
@@ -21,7 +22,6 @@ hardwareswap = reddit.subreddit(
     user_agent="YOUR USER AGENT HERE"
 )
 ```
-<<<<<<< HEAD
 1. Go to your [apps](https://reddit.com/prefs/apps) on the reddit site and add a new app.
 1. Give it a name.
 1. Select script.
@@ -29,7 +29,6 @@ hardwareswap = reddit.subreddit(
 1. The string at the top under 'personal use script' and underneath your name is your `client_id`. Your `client_secret` is also displayed. Note these down somewhere secure.
 1. Create a descriptive `user_agent`. Reddit requires these to identify applications. An example: `my_app_name v1.0.0 by /u/my_name`
 1. Make sure your three credential strings get into the script either by hardcoding them in (see above example) or by storing them in a seperate file (recommended).
-=======
 
 ### Set up your gmail to send texts :email:
 1. Go to your gmail's [security settings]("https://myaccount.google.com/security") and enable two-factor authentication
