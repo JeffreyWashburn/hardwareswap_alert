@@ -39,7 +39,6 @@ hardwareswap = reddit.subreddit(
 * Make sure your three credential strings get into the script either by hardcoding them in (above) or by storing them in a seperate file (recommended).
 
 * To get these go to your [apps](https://reddit.com/prefs/apps) on the reddit site and add an app.
->>>>>>> c5f18075fa8c3cc9381a8e8078b767c06e76aab0
 
 ### Common errors
 * Recieved HTTP response `401` - This most likely means your credentials are wrong :thinking:
