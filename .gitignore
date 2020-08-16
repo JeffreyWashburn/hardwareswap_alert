@@ -357,3 +357,4 @@ private/
 
 *.json
 *.err
+.test.py

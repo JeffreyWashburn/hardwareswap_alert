@@ -23,6 +23,7 @@ HWSWAP_NEW = "https://www.reddit.com/r/hardwareswap/new"
 GRAPHICS_CARD = compile(r"2080 ?super", IGNORECASE)
 IS_PAYPAL = compile(r"PayPal", IGNORECASE)
 IS_USA = compile(r"^\[USA")
+ALL = compile(r".*")
 
 # Functions
 def win_notify(post):
@@ -51,8 +52,8 @@ def email_alert(subject, body, to):
 
 def get_newest(sub_reddit):
     # get the three newest non-sticky posts
-    return [post.title for post in sub_reddit.new(limit=3) if not post.
-    stickied]
+    return [post.title for post in sub_reddit.new(limit=3) if not 
+    post.stickied and post.link_flair_text == "SELLING"]
 
 def check(subreddit, keyword):
 
@@ -98,11 +99,11 @@ def main():
     
     while True:
         # reddits api is limited to no more than 30 requests per minute (2/sec)
-        sleep(3) # pause for 3 seconds to be safe
+        sleep(5) # pause for 5 seconds to be safe
         hardwareswap = reddit.subreddit("hardwareswap")
         # check against expressions
         # customize and add more checks as necessary
-        matches = check(hardwareswap, GRAPHICS_CARD)
+        matches = check(hardwareswap, IS_USA)
         total = 0
         for post in matches:
             if post not in discovered:
@@ -115,7 +116,7 @@ def main():
                 discovered.append(post)
                 save_discovered(discovered)
                 total += 1
-                print(f"[{total}][SENT]: {post}")
+                print(f"[{total}][NOTIFICATION SENT]: {post}")
 
 try:
     main()
