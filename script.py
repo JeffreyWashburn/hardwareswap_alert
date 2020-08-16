@@ -118,5 +118,5 @@ try:
 except:
     var = format_exc()
     err_time = dt.strftime(dt.now(), "%Y%m%d %H-%M-%S")
-    with open(f"{err_time} traceback.err", "w") as f:
+    with open(f"err/{err_time} traceback.err", "w") as f:
         f.write(var)
