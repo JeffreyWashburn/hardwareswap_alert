@@ -13,6 +13,9 @@ from traceback import format_exc
 
 from json import load, dump
 from os.path import isfile
+from sys import exit
+
+import multiprocessing
 
 from private.creds import my_credentials as mycreds
 
@@ -76,7 +79,7 @@ def load_discovered():
 def get_now():
     return dt.strftime(dt.now(), "%Y%m%d %H-%M-%S")
 
-def main():
+def monitor():
     print(f"[{get_now()}][START]: CTRL-C to quit")
 
     # create history file if none
@@ -92,7 +95,7 @@ def main():
         user_agent=mycreds['user_agent']
     )
 
-    # list to hold already discovered posts so you dont get notified every 5s
+    # list to hold discovered posts to prevent duplicate notifications
     discovered = load_discovered()
     while len(discovered) < 3:
         discovered.append(None)
@@ -119,8 +122,25 @@ def main():
                 total += 1
                 print(f"[{total}][NOTIFICATION SENT]: {post}")
 
+def handle_input(thread):
+    while True:
+        command = input("").lower().strip()
+        if command == "stop":
+            confirm = input("[*][STOP]: Exit? [y/n]: ").lower().strip()
+            if confirm == "y":
+                thread.terminate()
+                exit()
+            elif confirm == "n":
+                continue
+            else:
+                continue
+        else:
+            print(f"[*][ERROR]: Command '{command}' does not exist.")
+
 try:
-    main()
+    main_thread = multiprocessing.Process(target=monitor)
+    main_thread.start()
+    handle_input(main_thread)
 except:
     var = format_exc()
     with open(f"err/{get_now()} traceback.err", "w") as f:
