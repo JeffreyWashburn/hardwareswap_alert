@@ -116,6 +116,6 @@ try:
     main()
 except:
     var = format_exc()
-    with open("traceback.err", "w") as f:
+    err_time = dt.strftime(dt.now(), "%Y%m%d %H-%M-%S")
+    with open(f"{err_time} traceback.err", "w") as f:
         f.write(var)
-        f.write(dt.strftime(dt.now(), "%M/%d %H:%M:%S"))
