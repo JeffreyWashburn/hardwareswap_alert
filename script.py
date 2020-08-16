@@ -18,6 +18,7 @@ from private.creds import my_credentials as mycreds
 
 # Constants (Enter your search patterns here)
 NOTIFY_IMG = "icons/hardwareswap.ico"
+HWSWAP_NEW = "https://www.reddit.com/r/hardwareswap/new"
 
 GRAPHICS_CARD = compile(r"2080 ?super", IGNORECASE)
 IS_PAYPAL = compile(r"PayPal", IGNORECASE)
@@ -31,7 +32,7 @@ def win_notify(post):
 
 def email_alert(subject, body, to):
     message = EmailMessage()
-    message.set_content(f"{body}\nLink: https://www.reddit.com/r/hardwareswap/")
+    message.set_content(f"{body}\nLink: {HWSWAP_NEW}")
     message['subject'] = subject
     # message is going to myself
     message['to'] = to
