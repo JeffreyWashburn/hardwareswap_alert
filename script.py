@@ -2,6 +2,7 @@
 import praw
 import re
 import smtplib
+import traceback
 from email.message import EmailMessage
 from win10toast import ToastNotifier
 from time import sleep
@@ -9,7 +10,7 @@ from json import load, dump
 from os.path import isfile
 
 # bring in my private credentials
-from private.creds import *
+from private.creds import my_credentials
 
 # create history file if none
 if not isfile("history.json"):
@@ -36,8 +37,8 @@ def email_alert(subject, body, to):
     message['to'] = to
     message['from'] = to
 
-    user = email[0]
-    password = email[1]
+    user = my_credentials['email']
+    password = my_credentials['gmail_app_password']
 
     server = smtplib.SMTP("smtp.gmail.com", 587) # 587 is standard for smtp
     server.starttls()
@@ -73,9 +74,9 @@ def main():
     # make a hardwareswap subreddit instance
     # (your credentials go here)
     reddit = praw.Reddit(
-        client_id=client_id,
-        client_secret=client_secret,
-        user_agent=user_agent
+        client_id=my_credentials['client_id'],
+        client_secret=my_credentials['client_secret'],
+        user_agent=my_credentials['user_agent']
     )
 
     # list to hold already discovered posts so you dont get notified every 5s
@@ -91,11 +92,17 @@ def main():
             if post not in discovered:
                 # send windows notification and sms text
                 win_notify(post)
-                email_alert("Found on r/hardwareswap", post, phoneno)
+                email_alert("Found on r/hardwareswap", post, 
+                    my_credentials['phone_address'])
                 # remember last 3 posts
                 print(f"removing{discovered.pop(0)}")
                 discovered.append(post)
                 save_discovered(discovered)
                 print(f"saving {post}")
-            
-main()
+
+try:
+    main()
+except:
+    var = traceback.format_exc()
+    with open("traceback.err", "w") as f:
+        f.write(var)
