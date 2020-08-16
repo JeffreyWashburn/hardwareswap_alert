@@ -41,6 +41,21 @@ hardwareswap = reddit.subreddit(
 * To get these go to your [apps](https://reddit.com/prefs/apps) on the reddit site and add an app.
 
 ### Commands
+#### Arguments
+These are command-line arguments you pass when the script is run.
+* `-h`, `--help` - Display help message.
+* `-p`, `--patterns` - String(s) to retrieve compiled regex pattern from 'patterns' dict (located in hws_patterns.py).
+* `-f`, `--flairs` - String(s) to filter subreddit submission flairs with.
+
+Example:
+
+```bash
+$ python3 script.py -p graphics_card -f selling trading
+```
+
+You can change your default arguments by editing the defaults.json file.
+#### Input
+These are commands you can type into the script while it's running.
 * `stop` Exit gracefully. You can CTRL-C but that will produce a traceback.err file.
 
 ### Common errors
