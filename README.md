@@ -21,7 +21,7 @@ hardwareswap = reddit.subreddit(
 ### Set up your gmail to send texts :email:
 1. Go to your gmail's [security settings]("https://myaccount.google.com/security") and enable two-factor authentication
 1. On the same page, you should now see an app passwords section. Go in there and create a new app and get a password for it. You will use this password in the script.
-1. Use your carriers [phone number address](https://www.digitaltrends.com/mobile/how-to-send-a-text-from-your-email-account/) in place of an email address to instead get sms text messages.
+1. Use your carriers [SMS gateway domain](https://www.digitaltrends.com/mobile/how-to-send-a-text-from-your-email-account/) in place of an email address to instead get sms text messages.
 
 ### Authenticate with reddits API
 * Make sure your three credential strings get into the script either by hardcoding them in (above) or by storing them in a seperate file (recommended).
