@@ -98,6 +98,7 @@ def main():
         discovered.append(None)
         save_discovered(discovered)
     
+    total = 0
     while True:
         # reddits api is limited to no more than 30 requests per minute (2/sec)
         sleep(5) # pause for 5 seconds to be safe
@@ -105,7 +106,6 @@ def main():
         # check against expressions
         # customize and add more checks as necessary
         matches = check(hardwareswap, IS_USA)
-        total = 0
         for post in matches:
             if post not in discovered:
                 # send windows notification and sms text
