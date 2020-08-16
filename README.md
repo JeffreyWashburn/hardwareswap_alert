@@ -32,8 +32,7 @@ hardwareswap = reddit.subreddit(
 
 ### Common errors
 * recieved err 401 - This most likely means your credentials are wrong.
-<br>
+
 # PRAW (Python Reddit API Wrapper)
 `praw` is the main package used in this script. It is a wrapper written in Python for Reddit's API, as the name suggests.
-<br>
-Take a look at the [documentation](https://praw.readthedocs.io/en/latest/) to figure out how you can further customize this script and make it your own.
+Take a look at the [documentation](https://praw.readthedocs.io/en/latest/) to figure out how you can further customize this script and make it your own :smiley:
