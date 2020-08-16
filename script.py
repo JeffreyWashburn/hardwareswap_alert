@@ -93,7 +93,8 @@ def main():
         save_discovered(discovered)
     
     while True:
-        sleep(1)
+        # reddits api is limited to no more than 30 requests per minute (2/sec)
+        sleep(3) # pause for 3 seconds to be safe
         hardwareswap = reddit.subreddit("hardwareswap")
         # check against expressions
         # customize and add more checks as necessary
