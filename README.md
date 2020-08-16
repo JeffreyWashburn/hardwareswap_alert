@@ -40,6 +40,9 @@ hardwareswap = reddit.subreddit(
 
 * To get these go to your [apps](https://reddit.com/prefs/apps) on the reddit site and add an app.
 
+### Commands
+* `stop` Exit gracefully. You can CTRL-C but that will produce a traceback.err file.
+
 ### Common errors
 * Recieved HTTP response `401` - This most likely means your credentials are wrong :thinking:
 

@@ -137,11 +137,14 @@ def handle_input(thread):
         else:
             print(f"[*][ERROR]: Command '{command}' does not exist.")
 
-try:
-    main_thread = multiprocessing.Process(target=monitor)
-    main_thread.start()
-    handle_input(main_thread)
-except:
-    var = format_exc()
-    with open(f"err/{get_now()} traceback.err", "w") as f:
-        f.write(var)
+if __name__ == "__main__":
+    try:
+        main_thread = multiprocessing.Process(target=monitor)
+        main_thread.start()
+        handle_input(main_thread)
+    except SystemExit:
+        exit()
+    except:
+        var = format_exc()
+        with open(f"err/{get_now()} traceback.err", "w") as f:
+            f.write(var)
