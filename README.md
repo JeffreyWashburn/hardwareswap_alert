@@ -9,7 +9,7 @@
 * pip install praw
 
 ### Get your app credentials
-I reccommend doing what I did with creating a creds.py file to hold all your keys and stuff so that it's secure, otherwise there are a [few ways](https://praw.readthedocs.io/en/latest/getting_started/configuration.html#configuration) to authenticate other than hard coding your credentials like the below example.
+I recommend doing what I did with creating a creds.py file to hold all your keys and stuff so that it's secure, otherwise there are a [few ways](https://praw.readthedocs.io/en/latest/getting_started/configuration.html#configuration) to authenticate other than hard coding your credentials like the below example.
 
 ```python
 # hard coded reddit api credentials
